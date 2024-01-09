@@ -134,7 +134,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Connected database failed...");
+			System.out.println("Connected database failed.");
 		}
 		return result;
 	}
