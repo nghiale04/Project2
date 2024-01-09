@@ -21,7 +21,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 	@Override
 	public List<RentAreaEntity> findByBuildingId(Integer rentAreaFrom, Integer rentAreaTo) {
 		StringBuilder sql = new StringBuilder(
-				"SELECT rentarea.id, building.name, rentarea.value, rentarea.buildingid FROM rentarea INNER JOIN building ON rentarea.buildingid = building.id WHERE 1 = 1 ");
+				"SELECT id, buildingid, value FROM rentarea where 1 = 1 ");
 		if (rentAreaFrom != null) {
 			sql.append(" AND rentarea.value >= " + rentAreaFrom);
 		}
@@ -36,7 +36,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 					RentAreaEntity rentArea = new RentAreaEntity();
 					rentArea.setId(rs.getInt("id"));
 					rentArea.setValue(rs.getString("value"));
-					rentArea.setNameBuilding(rs.getString("name")); 
+					rentArea.setBuildingId(rs.getInt("buildingid")); 
 					result.add(rentArea);
 				}
 			}

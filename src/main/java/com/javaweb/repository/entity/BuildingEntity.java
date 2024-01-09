@@ -3,12 +3,19 @@ package com.javaweb.repository.entity;
 import java.util.List;
 
 public class BuildingEntity {
+	private Integer buildingId;
+	public void setBuildingId(Integer buildingId) {
+		this.buildingId = buildingId;
+	}
 	private String name, street, ward;
 	private Integer districtId, numberOfBasement, floorArea;
 	private String direction, level;
 	private Integer rentAreaFrom, rentAreaTo, rentPriceFrom, rentPriceTo, staffId;
 	private String managerName, managerPhone;
 	private List<String> rentTypeCode;
+	public Integer getBuildingId() {
+		return buildingId;
+	}
 	public List<String> getRentTypeCode() {
 		return rentTypeCode;
 	}

@@ -1,14 +1,15 @@
 package com.javaweb.repository.entity;
 
 public class RentAreaEntity {
-	private Integer id;
-	private String value, nameBuilding;
-	public String getNameBuilding() {
-		return nameBuilding;
+	private Integer id, buildingId;
+	private String value;
+		
+	public Integer getBuildingId() {
+		return buildingId;
 	}
 
-	public void setNameBuilding(String nameBuilding) {
-		this.nameBuilding = nameBuilding;
+	public void setBuildingId(Integer buildingId) {
+		this.buildingId = buildingId;
 	}
 
 	public Integer getId() {

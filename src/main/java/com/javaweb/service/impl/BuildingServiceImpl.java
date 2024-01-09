@@ -26,8 +26,8 @@ public class BuildingServiceImpl implements BuildingService {
 	private BuildingRepository buildingRepository;
 	@Autowired
 	private DistrictRepository districtRepository;
-	@Autowired
-	private RentAreaRepository rentAreaRepository;
+//	@Autowired
+//	private RentAreaRepository rentAreaRepository;
 	@Autowired
 	private StaffRepository staffRepository;
 	@Autowired
@@ -39,8 +39,9 @@ public class BuildingServiceImpl implements BuildingService {
 		List<BuildingDTO> result = new ArrayList<BuildingDTO>();
 		for (BuildingEntity item : buildingEntities) {
 			BuildingDTO building = new BuildingDTO();
-			DistrictEntity district = districtRepository.findByBuildingId(item.getDistrictId());
-			List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(item.getRentAreaFrom(),item.getRentAreaTo());
+			Integer districtId = buildingRepository.findByDistrictId(item.getDistrictId());
+			DistrictEntity district = districtRepository.findByBuildingId(districtId);
+			List<RentAreaEntity> rentAreaEntities = buildingRepository.findByRentArea(item.getRentAreaFrom(),item.getRentAreaTo());
 			Set<String> staff = staffRepository.findByStaffId(item.getStaffId());
 			Set<String> typeCode = rentTypeRepository.findByRentTypeCode(item.getRentTypeCode());
 			if (staff != null && !staff.contains(item.getName()) && staff.size() != 0) {
@@ -51,7 +52,7 @@ public class BuildingServiceImpl implements BuildingService {
 			}
 			StringBuilder sb = new StringBuilder("");
 				for (RentAreaEntity z : rentAreaEntities) {
-					if (z.getNameBuilding().equals(item.getName())) {
+					if (z.getBuildingId() == item.getBuildingId()) {
 						sb.append(z.getValue() + ", ");
 					}
 				}
