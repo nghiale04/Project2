@@ -30,6 +30,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		for (Map.Entry<String, String> entry : entrySet) {
 			if (entry.getKey().equals("name"))
 				buildingQuery.setName(entry.getValue().toString());
+			;
 			if (entry.getKey().equals("street"))
 				buildingQuery.setStreet(entry.getValue().toString());
 			if (entry.getKey().equals("ward"))
@@ -62,6 +63,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 				buildingQuery.setStaffId(Integer.parseInt(entry.getValue().toString()));
 		}
 		buildingQuery.setRentTypeCode(rentTypeCode);
+
 		if (buildingQuery.getName() != null && !buildingQuery.getName().equals("")) {
 			sql.append(" AND b.name LIKE '%" + buildingQuery.getName() + "%' ");
 		}
@@ -86,12 +88,6 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		if (buildingQuery.getLevel() != null && !buildingQuery.getLevel().equals("")) {
 			sql.append(" AND b.level LIKE '%" + buildingQuery.getLevel() + "%' ");
 		}
-//		if (buildingQuery.getRentAreaFrom() != null) {
-//			sql.append(" AND rentarea.value >=" + buildingQuery.getRentAreaFrom());
-//		}
-//		if (buildingQuery.getRentAreaTo() != null) {
-//			sql.append(" AND rentarea.value <=" + buildingQuery.getRentAreaTo());
-//		}
 		if (buildingQuery.getRentPriceFrom() != null) {
 			sql.append(" AND b.rentprice >= " + buildingQuery.getRentPriceFrom());
 		}
@@ -143,57 +139,5 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		}
 		return result;
 	}
-
-	@Override
-	public Integer findByDistrictId(Integer districtId) {
-		StringBuilder sql = new StringBuilder(
-				"SELECT districtid FROM building INNER JOIN district ON building.districtid = district.id");
-		if (districtId != null) {
-			sql.append(" WHERE districtid = " + districtId);
-		}
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql.toString());
-			{
-				while (rs.next()) {
-					districtId = rs.getInt("districtid");
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Connected database failed...");
-		}
-		return districtId;
-	}
-
-	@Override
-	public List<RentAreaEntity> findByRentArea(Integer rentAreaFrom, Integer rentAreaTo) {
-		StringBuilder sql = new StringBuilder(
-				"SELECT rentarea.id, rentarea.buildingid, rentarea.value FROM rentarea INNER JOIN building ON rentarea.buildingid = building.id WHERE 1 = 1 ");
-		if (rentAreaFrom != null) {
-			sql.append(" AND rentarea.value >= " + rentAreaFrom);
-		}
-		if (rentAreaTo != null) {
-			sql.append(" AND rentarea.value <= " + rentAreaTo);
-		}
-		List<RentAreaEntity> result = new ArrayList<>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql.toString());
-			{
-				while (rs.next()) {
-					RentAreaEntity rentArea = new RentAreaEntity();
-					rentArea.setId(rs.getInt("id"));
-					rentArea.setValue(rs.getString("value"));
-					rentArea.setBuildingId(rs.getInt("buildingid"));
-					result.add(rentArea);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Connected database failed...");
-		}
-		return result;
-	}
-
+	
 }

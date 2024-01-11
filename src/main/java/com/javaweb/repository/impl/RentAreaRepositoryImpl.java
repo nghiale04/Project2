@@ -20,8 +20,7 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 	static final String PASS = "Nghia132004567";
 	@Override
 	public List<RentAreaEntity> findByBuildingId(Integer rentAreaFrom, Integer rentAreaTo) {
-		StringBuilder sql = new StringBuilder(
-				"SELECT id, buildingid, value FROM rentarea where 1 = 1 ");
+		StringBuilder sql = new StringBuilder("SELECT * FROM rentarea where 1 = 1 ");
 		if (rentAreaFrom != null) {
 			sql.append(" AND rentarea.value >= " + rentAreaFrom);
 		}
