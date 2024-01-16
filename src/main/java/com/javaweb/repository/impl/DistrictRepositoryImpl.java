@@ -17,24 +17,19 @@ public class DistrictRepositoryImpl implements DistrictRepository {
 	static final String USER = "root";
 	static final String PASS = "Nghia132004567";
 	@Override
-	public DistrictEntity findByBuildingId(Integer districtId) {
-		StringBuilder sql = new StringBuilder("SELECT district.id, district.name FROM district");
-		if (districtId != null) {
-			sql.append(" WHERE district.id = " + districtId);
-		}
+	public DistrictEntity findByDistrictId(Long districtId) {
+		StringBuilder sql = new StringBuilder("SELECT  d.name FROM district d WHERE d.id = "+districtId);
 		DistrictEntity district = new DistrictEntity();
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			{
 				while (rs.next()) {
-					district.setDistrictId(rs.getInt("id"));
 					district.setName(rs.getString("name"));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Connected database failed...");
 		}
 		return district;
 	}

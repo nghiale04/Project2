@@ -3,49 +3,32 @@ package com.javaweb.repository.entity;
 import java.util.List;
 
 public class BuildingEntity {
-	private Integer buildingId;
-	public void setBuildingId(Integer buildingId) {
-		this.buildingId = buildingId;
+	private Long id;
+	private String name;
+	private String ward;
+	private String street;
+	private Long districtid;
+	private String direction;
+	private String level;
+	private Long numberOfBasement;
+	private String managerName;
+	private String managerPhoneNumber;
+	private Long floorArea;
+	private String emptyArea;
+	private Long rentPrice;
+	private String serviceFee;
+	private String brokerageFee;
+	public Long getId() {
+		return id;
 	}
-	private String name, street, ward;
-	private Integer districtId, numberOfBasement, floorArea;
-	private String direction, level;
-	private Integer rentAreaFrom, rentAreaTo, rentPriceFrom, rentPriceTo, staffId;
-	private String managerName, managerPhone;
-	private List<String> rentTypeCode;
-	public Integer getBuildingId() {
-		return buildingId;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public List<String> getRentTypeCode() {
-		return rentTypeCode;
-	}
-	public void setRentTypeCode(List<String> rentTypeCode) {
-		this.rentTypeCode = rentTypeCode;
-	}
-	public Integer getStaffId() {
-		return staffId;
-	}
-	public void setStaffId(Integer staffId) {
-		this.staffId = staffId;
-	}
-
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public Integer getFloorArea() {
-		return floorArea;
-	}
-	public void setFloorArea(Integer floorArea) {
-		this.floorArea = floorArea;
-	}
-	public String getStreet() {
-		return street;
-	}
-	public void setStreet(String street) {
-		this.street = street;
 	}
 	public String getWard() {
 		return ward;
@@ -53,18 +36,13 @@ public class BuildingEntity {
 	public void setWard(String ward) {
 		this.ward = ward;
 	}
-	public Integer getDistrictId() {
-		return districtId;
+	public String getStreet() {
+		return street;
 	}
-	public void setDistrictId(Integer districtId) {
-		this.districtId = districtId;
+	public void setStreet(String street) {
+		this.street = street;
 	}
-	public Integer getNumberOfBasement() {
-		return numberOfBasement;
-	}
-	public void setNumberOfBasement(Integer numberOfBasement) {
-		this.numberOfBasement = numberOfBasement;
-	}
+	
 	public String getDirection() {
 		return direction;
 	}
@@ -77,33 +55,17 @@ public class BuildingEntity {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-
-	public Integer getRentAreaFrom() {
-		return rentAreaFrom;
+	public Long getDistrictid() {
+		return districtid;
 	}
-	public void setRentAreaFrom(Integer rentAreaFrom) {
-		this.rentAreaFrom = rentAreaFrom;
+	public void setDistrictid(Long districtid) {
+		this.districtid = districtid;
 	}
-	public Integer getRentAreaTo() {
-		return rentAreaTo;
+	public Long getNumberOfBasement() {
+		return numberOfBasement;
 	}
-	public void setRentAreaTo(Integer rentAreaTo) {
-		this.rentAreaTo = rentAreaTo;
-	}
-	public Integer getRentPriceFrom() {
-		return rentPriceFrom;
-	}
-	public void setRentPriceFrom(Integer rentPriceFrom) {
-		this.rentPriceFrom = rentPriceFrom;
-	}
-	public Integer getRentPriceTo() {
-		return rentPriceTo;
-	}
-	public void setRentPriceTo(Integer rentPriceTo) {
-		this.rentPriceTo = rentPriceTo;
-	}
-	public void setRentPriceTo(int rentPriceTo) {
-		this.rentPriceTo = rentPriceTo;
+	public void setNumberOfBasement(Long numberOfBasement) {
+		this.numberOfBasement = numberOfBasement;
 	}
 	public String getManagerName() {
 		return managerName;
@@ -111,10 +73,42 @@ public class BuildingEntity {
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
 	}
-	public String getManagerPhone() {
-		return managerPhone;
+	public String getManagerPhoneNumber() {
+		return managerPhoneNumber;
 	}
-	public void setManagerPhone(String managerPhone) {
-		this.managerPhone = managerPhone;
+	public void setManagerPhoneNumber(String managerPhoneNumber) {
+		this.managerPhoneNumber = managerPhoneNumber;
 	}
+	public Long getFloorArea() {
+		return floorArea;
+	}
+	public void setFloorArea(Long floorArea) {
+		this.floorArea = floorArea;
+	}
+	public String getEmptyArea() {
+		return emptyArea;
+	}
+	public void setEmptyArea(String emptyArea) {
+		this.emptyArea = emptyArea;
+	}
+	public Long getRentPrice() {
+		return rentPrice;
+	}
+	public void setRentPrice(Long rentPrice) {
+		this.rentPrice = rentPrice;
+	}
+	public String getServiceFee() {
+		return serviceFee;
+	}
+	public void setServiceFee(String serviceFee) {
+		this.serviceFee = serviceFee;
+	}
+	public String getBrokerageFee() {
+		return brokerageFee;
+	}
+	public void setBrokerageFee(String brokerageFee) {
+		this.brokerageFee = brokerageFee;
+	}
+	
+	
 }

@@ -39,35 +39,9 @@ public class BuildingServiceImpl implements BuildingService {
 		List<BuildingDTO> result = new ArrayList<BuildingDTO>();
 		for (BuildingEntity item : buildingEntities) {
 			BuildingDTO building = new BuildingDTO();
-			DistrictEntity district = districtRepository.findByBuildingId(item.getDistrictId());
-			List<RentAreaEntity> rentAreaEntities = rentAreaRepository.findByBuildingId(item.getRentAreaFrom(),item.getRentAreaTo());
-			Set<String> staff = staffRepository.findByStaffId(item.getStaffId());
-			Set<String> typeCode = rentTypeRepository.findByRentTypeCode(item.getRentTypeCode());
-			if (staff != null && !staff.contains(item.getName()) && staff.size() != 0) {
-				continue;
-			}
-			if (typeCode != null && !typeCode.contains(item.getName()) && typeCode.size() != 0 ) {
-				continue;
-			} 
-			StringBuilder sb = new StringBuilder("");
-				for (RentAreaEntity z : rentAreaEntities) {
-					if (z.getBuildingId() == item.getBuildingId()) {
-						sb.append(z.getValue() + ", ");
-					}
-				}
-			if (sb.toString().equals("")) {
-					continue;
-			}
-			sb.deleteCharAt(sb.length() - 2);
-			sb.deleteCharAt(sb.length() - 1);
+			DistrictEntity district = districtRepository.findByDistrictId(item.getDistrictid());
 			building.setName(item.getName());
-			building.setNumberOFBasement(item.getNumberOfBasement());
-			building.setAddress(item.getStreet() + ", " + item.getWard() + ", " + district.getName());
-			building.setFloorArea(item.getFloorArea());
-			building.setRentArea(sb.toString());
-			building.setRentPrice(item.getRentPriceFrom());
-			building.setManagerName(item.getManagerName());
-			building.setManagerPhone(item.getManagerPhone());
+			building.setAddress(item.getStreet() + ", " + item.getWard()+","+ district.getName());
 			result.add(building);
 			}
 	return result;
