@@ -12,23 +12,16 @@ import org.springframework.stereotype.Repository;
 
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.entity.RentAreaEntity;
+import com.javaweb.utils.ConnectionJDBCUtil;
 
 @Repository
 public class RentAreaRepositoryImpl implements RentAreaRepository {
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "Nghia132004567";
+
 	@Override
-	public List<RentAreaEntity> findByBuildingId(Integer rentAreaFrom, Integer rentAreaTo) {
-		StringBuilder sql = new StringBuilder("SELECT * FROM rentarea where 1 = 1 ");
-		if (rentAreaFrom != null) {
-			sql.append(" AND rentarea.value >= " + rentAreaFrom);
-		}
-		if (rentAreaTo != null) {
-			sql.append(" AND rentarea.value <= " + rentAreaTo);
-		}
+	public List<RentAreaEntity> findByBuildingId(Long id) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM rentarea r WHERE r.buildingid = "+ id);
 		List<RentAreaEntity> result = new ArrayList<>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
+		try (Connection conn = ConnectionJDBCUtil.getConnection();) {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql.toString()); {
 				while (rs.next()) {

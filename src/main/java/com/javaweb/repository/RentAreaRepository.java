@@ -5,5 +5,5 @@ import java.util.List;
 import com.javaweb.repository.entity.RentAreaEntity;
 
 public interface RentAreaRepository {
-	List<RentAreaEntity> findByBuildingId(Integer rentAreaFrom, Integer rentAreaTo);
+	List<RentAreaEntity> findByBuildingId(Long id);
 }

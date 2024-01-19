@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.javaweb.converter.BuildingDTOConverter;
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.DistrictRepository;
@@ -24,10 +26,10 @@ import com.mysql.cj.x.protobuf.MysqlxSession.AuthenticateContinue;
 public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private BuildingRepository buildingRepository;
+	
 	@Autowired
-	private DistrictRepository districtRepository;
-	@Autowired
-	private RentAreaRepository rentAreaRepository;
+	private BuildingDTOConverter buildingDTOConverter;
+	
 	@Autowired
 	private StaffRepository staffRepository;
 	@Autowired
@@ -38,10 +40,7 @@ public class BuildingServiceImpl implements BuildingService {
 		List<BuildingEntity> buildingEntities = buildingRepository.findAll(params, rentTypeCode);
 		List<BuildingDTO> result = new ArrayList<BuildingDTO>();
 		for (BuildingEntity item : buildingEntities) {
-			BuildingDTO building = new BuildingDTO();
-			DistrictEntity district = districtRepository.findByDistrictId(item.getDistrictid());
-			building.setName(item.getName());
-			building.setAddress(item.getStreet() + ", " + item.getWard()+","+ district.getName());
+			BuildingDTO building = buildingDTOConverter.toBuildingDTO(item);
 			result.add(building);
 			}
 	return result;
