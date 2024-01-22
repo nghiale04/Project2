@@ -14,14 +14,12 @@ import org.springframework.stereotype.Repository;
 
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
+import com.javaweb.utils.ConnectionJDBCUtil;
 import com.javaweb.utils.NumberUtil;
 import com.javaweb.utils.StringUtil;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "Nghia132004567";
 
 	public static void joinTable(Map<String, String> params, List<String> rentTypeCode, StringBuilder sql) {
 		if (rentTypeCode != null && rentTypeCode.size() != 0) {
@@ -49,7 +47,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	public static void querySpecial(Map<String, String> params, List<String> rentTypeCode, StringBuilder where) {
 		String staffId = params.get("staffid");
 		if (StringUtil.checkString(staffId)) {
-			where.append(" AND EXISTS (SELECT * FROM assigmentbuilding a WHERE a.buidingid = b.id ");
+			where.append(" AND EXISTS (SELECT * FROM assignmentbuilding WHERE assignmentbuilding.buildingid = b.id ");
 			where.append(" AND assignmentbuilding.staffid = " + staffId);
 			where.append(" ) ");
 		}
@@ -78,6 +76,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		if (rentTypeCode != null && rentTypeCode.size() != 0) {
 			where.append(" AND( ");
 			String sql = rentTypeCode.stream().map(it -> "renttype.code LIKE"+"'%"+it+"%' ").collect(Collectors.joining(" OR "));
+			where.append(sql);
 			where.append(" ) ");
 		}
 	}
@@ -94,7 +93,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		sql.append(where);
 		System.out.println(sql);
 		List<BuildingEntity> result = new ArrayList<>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
+		try (Connection conn = ConnectionJDBCUtil.getConnection();) {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			{
