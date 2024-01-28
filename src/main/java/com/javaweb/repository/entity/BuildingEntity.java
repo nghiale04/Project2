@@ -1,22 +1,81 @@
 package com.javaweb.repository.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "building")
 public class BuildingEntity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "ward")
 	private String ward;
-	private String street;
-	private Long districtid;
+
+	@Column(name = "street")
+	private String street; 
+	
+	@ManyToOne
+	@JoinColumn(name = "districtid")
+	private DistrictEntity districtid;
+	
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	private List<RentAreaEntity> items = new ArrayList<>();
+	
+	
+	public List<RentAreaEntity> getItems() {
+		return items;
+	}
+	public void setItems(List<RentAreaEntity> items) {
+		this.items = items;
+	}
+	public DistrictEntity getDistrictid() {
+		return districtid;
+	}
+	public void setDistrictid(DistrictEntity districtid) {
+		this.districtid = districtid;
+	}
+	@Column(name = "direction")
 	private String direction;
+	
+	@Column(name = "level")
 	private String level;
+	
+	@Column(name = "numberofbasement")
 	private Long numberOfBasement;
+	
+	@Column(name = "managername")
 	private String managerName;
+	
+	@Column(name = "managerphonenumber")
 	private String managerPhoneNumber;
+	
+	@Column(name = "floorarea")
 	private Long floorArea;
-	private String emptyArea;
+	
+	@Column(name = "rentprice")
 	private Long rentPrice;
+	
+	@Column(name = "servicefee")
 	private String serviceFee;
+	
+	@Column(name = "brokeragefee")
 	private String brokerageFee;
 	public Long getId() {
 		return id;
@@ -55,12 +114,6 @@ public class BuildingEntity {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-	public Long getDistrictid() {
-		return districtid;
-	}
-	public void setDistrictid(Long districtid) {
-		this.districtid = districtid;
-	}
 	public Long getNumberOfBasement() {
 		return numberOfBasement;
 	}
@@ -85,12 +138,7 @@ public class BuildingEntity {
 	public void setFloorArea(Long floorArea) {
 		this.floorArea = floorArea;
 	}
-	public String getEmptyArea() {
-		return emptyArea;
-	}
-	public void setEmptyArea(String emptyArea) {
-		this.emptyArea = emptyArea;
-	}
+
 	public Long getRentPrice() {
 		return rentPrice;
 	}

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import com.javaweb.builder.BuildingSearchBuilder;
@@ -21,7 +23,15 @@ import com.javaweb.utils.NumberUtil;
 import com.javaweb.utils.StringUtil;
 
 @Repository
+@PropertySource("classpath:application.properties")
+
 public class BuildingRepositoryImpl implements BuildingRepository {
+	@Value("${spring.datasource.url}")
+	private String DB_URL;
+	@Value("${spring.datasource.username}")
+	private String USER;
+	@Value("${spring.datasource.password}")
+	private String PASS;
 
 	public static void joinTable(BuildingSearchBuilder builingSearchBuilder, StringBuilder sql) {
 		List<String> rentTypeCode = builingSearchBuilder.getRentTypeCode();
@@ -105,7 +115,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		sql.append(where);
 		System.out.println(sql);
 		List<BuildingEntity> result = new ArrayList<>();
-		try (Connection conn = ConnectionJDBCUtil.getConnection();) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql.toString());
 			{
@@ -115,7 +125,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 					building.setName(rs.getString("b.name"));
 					building.setStreet(rs.getString("b.street"));
 					building.setWard(rs.getString("b.ward"));
-					building.setDistrictid(rs.getLong("b.districtid"));
+//					building.setDistrictid(rs.getLong("b.districtid"));
 					building.setFloorArea(rs.getLong("b.floorarea"));
 					building.setNumberOfBasement(rs.getLong("b.numberofbasement"));
 					building.setRentPrice(rs.getLong("b.rentprice"));

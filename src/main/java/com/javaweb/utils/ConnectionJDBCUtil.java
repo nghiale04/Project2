@@ -4,10 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+
+@PropertySource("classpath:application.properties")
 public class ConnectionJDBCUtil {
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "Nghia132004567";
+	@Value("${spring.datasourse.url}")
+	static String DB_URL;
+	@Value("${spring.datasourse.username}")
+	static String USER;
+	@Value("${spring.datasourse.password}")
+	static String PASS;
 	
 	public static Connection getConnection(){
 		Connection conn = null;

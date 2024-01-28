@@ -26,9 +26,8 @@ public class RentAreaRepositoryImpl implements RentAreaRepository {
 			ResultSet rs = stmt.executeQuery(sql.toString()); {
 				while (rs.next()) {
 					RentAreaEntity rentArea = new RentAreaEntity();
-					rentArea.setId(rs.getInt("id"));
+					rentArea.setId(rs.getLong("id"));
 					rentArea.setValue(rs.getString("value"));
-					rentArea.setBuildingId(rs.getInt("buildingid")); 
 					result.add(rentArea);
 				}
 			}

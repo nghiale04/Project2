@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.service.BuildingService;
 
+
 @RestController
+@PropertySource("classpath:application.properties")
 public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
+	@Value("${dev.nguyen}") private String data;
 	@GetMapping(value = "/api/building/")
 	public List<BuildingDTO> getBuilding(@RequestParam Map<String, Object> params,
 										@RequestParam (value = "renttypecode", required = false) List<String> rentTypeCode) {
