@@ -33,24 +33,24 @@ public class BuildingEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "districtid")
-	private DistrictEntity districtid;
+	private DistrictEntity district;
 	
 	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
-	private List<RentAreaEntity> items = new ArrayList<>();
+	private List<RentAreaEntity> rentArea = new ArrayList<>();
 	
-	
-	public List<RentAreaEntity> getItems() {
-		return items;
+	public List<RentAreaEntity> getRentArea() {
+		return rentArea;
 	}
-	public void setItems(List<RentAreaEntity> items) {
-		this.items = items;
+	public void setRentArea(List<RentAreaEntity> rentArea) {
+		this.rentArea = rentArea;
 	}
-	public DistrictEntity getDistrictid() {
-		return districtid;
+	public DistrictEntity getDistrict() {
+		return district;
 	}
-	public void setDistrictid(DistrictEntity districtid) {
-		this.districtid = districtid;
+	public void setDistrict(DistrictEntity district) {
+		this.district = district;
 	}
+
 	@Column(name = "direction")
 	private String direction;
 	

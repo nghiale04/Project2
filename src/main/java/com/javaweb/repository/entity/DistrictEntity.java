@@ -35,6 +35,7 @@ public class DistrictEntity {
 	public void setItems(List<BuildingEntity> items) {
 		this.items = items;
 	}
+	
 	public Long getId() {
 		return id;
 	}

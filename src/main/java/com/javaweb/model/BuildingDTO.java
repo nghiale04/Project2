@@ -11,6 +11,15 @@ public class BuildingDTO {
 	private Long rentPrice;
 	private String serviceFee;
 	private String brokerageFee;
+	private String direction;
+	
+	
+	public String getDirection() {
+		return direction;
+	}
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
 	public String getName() {
 		return name;
 	}

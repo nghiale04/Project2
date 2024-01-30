@@ -15,11 +15,9 @@ import com.javaweb.service.BuildingService;
 
 
 @RestController
-@PropertySource("classpath:application.properties")
 public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
-	@Value("${dev.nguyen}") private String data;
 	@GetMapping(value = "/api/building/")
 	public List<BuildingDTO> getBuilding(@RequestParam Map<String, Object> params,
 										@RequestParam (value = "renttypecode", required = false) List<String> rentTypeCode) {

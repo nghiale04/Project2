@@ -11,7 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
@@ -24,8 +29,11 @@ import com.javaweb.utils.StringUtil;
 
 @Repository
 @PropertySource("classpath:application.properties")
-
+@Primary
 public class BuildingRepositoryImpl implements BuildingRepository {
+	@PersistenceContext
+	private EntityManager entityManager;
+	
 	@Value("${spring.datasource.url}")
 	private String DB_URL;
 	@Value("${spring.datasource.username}")
@@ -105,42 +113,52 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 
 	@Override
 	public List<BuildingEntity> findAll(BuildingSearchBuilder builingSearchBuilder) {
-		StringBuilder sql = new StringBuilder(
-				"SELECT b.id,b.name,b.districtid,b.street,b.ward,b.numberofbasement,b.floorarea,b.rentprice,b.managername,b.managerphonenumber,b.servicefee,b.brokeragefee FROM building b ");
+		StringBuilder sql = new StringBuilder("SELECT b.* FROM building b ");
 		joinTable(builingSearchBuilder, sql);
 		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
 		queryNormal(builingSearchBuilder, where);
 		querySpecial(builingSearchBuilder, where);
 		where.append(" GROUP BY b.id;");
 		sql.append(where);
-		System.out.println(sql);
-		List<BuildingEntity> result = new ArrayList<>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql.toString());
-			{
-				while (rs.next()) {
-					BuildingEntity building = new BuildingEntity();
-					building.setId(rs.getLong("b.id"));
-					building.setName(rs.getString("b.name"));
-					building.setStreet(rs.getString("b.street"));
-					building.setWard(rs.getString("b.ward"));
-//					building.setDistrictid(rs.getLong("b.districtid"));
-					building.setFloorArea(rs.getLong("b.floorarea"));
-					building.setNumberOfBasement(rs.getLong("b.numberofbasement"));
-					building.setRentPrice(rs.getLong("b.rentprice"));
-					building.setServiceFee(rs.getString("b.servicefee"));
-					building.setBrokerageFee(rs.getString("brokeragefee"));
-					building.setManagerName(rs.getString("b.managername"));
-					building.setManagerPhoneNumber(rs.getString("b.managerphonenumber"));
-					result.add(building);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Connected database failed...");
-		}
-		return result;
+		Query query = entityManager.createNativeQuery(sql.toString(),BuildingEntity.class);
+		return query.getResultList();
+		
+//		StringBuilder sql = new StringBuilder(
+//				"SELECT b.id,b.name,b.districtid,b.street,b.ward,b.numberofbasement,b.floorarea,b.rentprice,b.managername,b.managerphonenumber,b.servicefee,b.brokeragefee FROM building b ");
+//		joinTable(builingSearchBuilder, sql);
+//		StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+//		queryNormal(builingSearchBuilder, where);
+//		querySpecial(builingSearchBuilder, where);
+//		where.append(" GROUP BY b.id;");
+//		sql.append(where);
+//		System.out.println(sql);
+//		List<BuildingEntity> result = new ArrayList<>();
+//		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);) {
+//			Statement stmt = conn.createStatement();
+//			ResultSet rs = stmt.executeQuery(sql.toString());
+//			{
+//				while (rs.next()) {
+//					BuildingEntity building = new BuildingEntity();
+//					building.setId(rs.getLong("b.id"));
+//					building.setName(rs.getString("b.name"));
+//					building.setStreet(rs.getString("b.street"));
+//					building.setWard(rs.getString("b.ward"));
+////					building.setDistrictid(rs.getLong("b.districtid"));
+//					building.setFloorArea(rs.getLong("b.floorarea"));
+//					building.setNumberOfBasement(rs.getLong("b.numberofbasement"));
+//					building.setRentPrice(rs.getLong("b.rentprice"));
+//					building.setServiceFee(rs.getString("b.servicefee"));
+//					building.setBrokerageFee(rs.getString("brokeragefee"));
+//					building.setManagerName(rs.getString("b.managername"));
+//					building.setManagerPhoneNumber(rs.getString("b.managerphonenumber"));
+//					result.add(building);
+//				}
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			System.out.println("Connected database failed...");
+//		}
+//		return null;
 	}
 
 }

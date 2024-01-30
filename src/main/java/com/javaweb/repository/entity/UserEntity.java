@@ -9,34 +9,40 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
 public class UserEntity {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "username")
-	private String username;
+	@Column(name = "username", nullable = false, unique =true)
+	private String userName;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "fullname")
-	private String fullname;
+	@Column(name = "status", nullable = false)
+	private Integer status;
 	
-	@Column(name = "phone")
-	private String phone;
-	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@OneToMany(mappedBy = "userid", fetch = FetchType.LAZY)
-	private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
+	@ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+	private List<RoleEntity> roles = new ArrayList<>();
+	
+	public List<RoleEntity> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<RoleEntity> roles) {
+		this.roles = roles;
+	}
 
 	public Long getId() {
 		return id;
@@ -46,12 +52,12 @@ public class UserEntity {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -62,20 +68,12 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public String getEmail() {
@@ -86,13 +84,13 @@ public class UserEntity {
 		this.email = email;
 	}
 
-	public List<UserRoleEntity> getUserRoleEntities() {
-		return userRoleEntities;
-	}
-
-	public void setUserRoleEntities(List<UserRoleEntity> userRoleEntities) {
-		this.userRoleEntities = userRoleEntities;
-	}
+//	public List<UserRoleEntity> getUserRoleEntities() {
+//		return userRoleEntities;
+//	}
+//
+//	public void setUserRoleEntities(List<UserRoleEntity> userRoleEntities) {
+//		this.userRoleEntities = userRoleEntities;
+//	}
 	
 	
 }
